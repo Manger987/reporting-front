@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 const ReportList = ({ reports }: any) => {
         return (
             <div>
                 { reports.map((report: any) => (
-                    <div>{report}</div>
+                    <div key={report.id}>{report.nombre}</div>
                 ))}
             </div>
         );

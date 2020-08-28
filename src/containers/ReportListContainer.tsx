@@ -12,16 +12,22 @@ class ReportListContainer extends Component {
     state = { reportList: [] };
 
     componentDidMount = async () => {
-        this.setState((state,props) => ({
-            reportList: await getReports
-        }));
-        console.log('REPORTLIST:',this.state.reportList);
+        /*this.setState(async state => { 
+            return await {
+                reportList: await getReports()
+            }
+        });*/
+        this.setState({
+            reportList: await getReports()
+        });
     }
 
     render() {
         return (
-            <ReportList reports={this.state.reportList} />
+            <ReportList reports={this.state.reportList}></ReportList>
         );
     }
 }
+
+export default ReportListContainer;
 
