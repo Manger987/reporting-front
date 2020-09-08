@@ -1,9 +1,10 @@
 import axios from 'axios';
+import { isAuthUser } from './authService';
 
 const getReports = async () => {
-    return await axios.get(`http://localhost:8000/reporte/list`)
+    console.log("isAuthUser", isAuthUser().token);
+    return await axios.get(`http://localhost:8000/reporte/list`, { headers:{'access-token': isAuthUser().token}})
     .then(res => {
-        console.log("AJIJIJI:", res.data);
         return res.data;
     });
 }
@@ -11,7 +12,6 @@ const getReports = async () => {
 const getListReportsFavorites = async (usuario_id: number) => {
     return await axios.get(`http://localhost:8000/reporte/listReportsFavorites/${usuario_id}`)
     .then(res => {
-        console.log("jojooj:", res.data);
         return res.data;
     });
 }

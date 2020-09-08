@@ -1,36 +1,47 @@
 // Container component
 import React, { Component } from 'react';
-import { getReports, getListReportsFavorites }  from './../services/report';
+import Button from 'react-bootstrap/Button';
+// import { Navbar } from 'react-bootstrap';
+import { getReports, getListReportsFavorites } from './../services/report';
 import ReportList from '../components/ReportList';
+import { removeLogin } from './../services/authService';
 
 class ReportListContainer extends Component {
-    /*constructor(props: any) {
-        super(props);
-        // Set initial state
-        this.state = { reportList: [] };
-    }*/
-    state = { 
+    state = {
         reportList: [],
-        listReportsFavorites: [] 
+        listReportsFavorites: []
     };
 
     componentDidMount = async () => {
-        /*this.setState(async state => { 
-            return await {
-                reportList: await getReports()
-            }
-        });*/
-        this.setState({
-            reportList: await getReports(),
-            listReportsFavorites: await getListReportsFavorites(7)
-        });
+        const user = await this.getCurrentUser();
+        if (user) {
+            console.log("USER:", user);
+            this.setState({
+                reportList: await getReports(),
+                listReportsFavorites: await getListReportsFavorites(7)
+            });
+        }
+    }
+
+    getCurrentUser() {
+        return localStorage.getItem('user');
+    }
+
+    logOut = () => {
+        removeLogin();
     }
 
     render() {
         return (
-            <ReportList 
-                reports={this.state.reportList} 
-                reportsFavorites={this.state.listReportsFavorites}></ReportList>
+            <div>
+                <nav className="navbar sticky-top navbar-dark bg-primary"> {/*style="background-color: #e3f2fd;"> */}
+                    <a className="navbar-brand" href="#">Reportes PowerBI</a>
+                </nav>
+                <Button variant="warning" onClick={() => this.logOut()}>LogOut</Button>
+                <ReportList
+                    reports={this.state.reportList}
+                    reportsFavorites={this.state.listReportsFavorites}></ReportList>
+            </div>
         );
     }
 }

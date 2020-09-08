@@ -1,13 +1,11 @@
 import React from "react";
 import { connect } from "react-redux";
-// import { PropTypes } from 'prop-types';
-import { createStore, compose } from "redux";
-import { logginUser } from "./../../services/usuario";
 import { setUserAction } from "./../../store/actions";
+import { login } from './../../services/authService';
 import "./styles.css";
 
-type MyProps = { setUserDispatch: any };
-type MyState = { username: string; password: string; [key: string]: any };
+type MyProps = { setUserDispatch: any, history: any };
+type MyState = { username: string; password: string;[key: string]: any };
 class Login extends React.Component<MyProps, MyState> {
   constructor(props: any) {
     super(props);
@@ -18,14 +16,13 @@ class Login extends React.Component<MyProps, MyState> {
   }
   AuthLogin = async (event: any) => {
     event.preventDefault();
-    const login = await logginUser({
-      username: this.state.username,
-      password: this.state.password,
-    });
-    if (login.code === 200) {
-      this.props.setUserDispatch(login.data);
+    const loginData = await login(this.state.username, this.state.password);
+    if (loginData.code === 200) {
+      this.props.setUserDispatch(loginData.data);
+      this.props.history.push("/reports");
+    } else {
+      console.log("Login::", loginData.message);
     }
-    console.log("Login::", login);
   };
   updateInputValue = (event: any) => {
     this.setState({
@@ -73,7 +70,7 @@ class Login extends React.Component<MyProps, MyState> {
             </form>
           </div>
           <div id="formFooter">
-            <a className="underlineHover" href="#">
+            <a className="underlineHover" href="/#">
               Forgot Password?
             </a>
           </div>
