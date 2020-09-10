@@ -1,6 +1,4 @@
 import { logginUser } from "./usuario";
-import { Redirect } from "react-router-dom";
-import React from "react";
 
 const login = async (username: string, password: string) => {
   const login = await logginUser({
