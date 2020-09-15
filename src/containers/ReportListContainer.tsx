@@ -1,48 +1,63 @@
 // Container component
 import React, { Component } from 'react';
-import Button from 'react-bootstrap/Button';
+import Button from 'react-bootstrap/esm/Button';
 // import { Navbar } from 'react-bootstrap';
 import { getListReportsFavorites, getAllReportsByUser, getListReportsViews, getListReportsArea } from './../services/report';
 import ReportList from '../components/ReportList';
 import { removeLogin, isAuthUser } from './../services/authService';
 import { getListTypes } from './../services/tipo';
-import { userStructure } from './../interfaces/user';
-import { tipoStructure } from './../interfaces/tipo';
+import { setReportsAction } from "./../store/actions";
+import { userInterface, userStructure } from './../interfaces/user';
+import { tipoInterface, tipoStructure } from './../interfaces/tipo';
 // import { isAdmin } from './../services/usuario';
 import './styles.css';
+import { connect } from 'react-redux';
 
-class ReportListContainer extends Component {
-    state = {
-        reportList: [],
-        listReportsFavorites: [],
-        tipoView: '',
-        user: userStructure,
-        areasUser: [tipoStructure]
-    };
-
+type MyProps = { setReportDispatch: any };
+type MyState = { 
+    reportList: any; 
+    listReportsFavorites: any; 
+    tipoView: string;
+    user: any;
+    areasUser: any;
+    [key: string]: any };
+class ReportListContainer extends Component<MyProps, MyState> {
+    constructor(props: any) {
+        super(props);
+        this.state = {
+            reportList: [],
+            listReportsFavorites: [],
+            tipoView: '',
+            user: userStructure,
+            areasUser: [tipoStructure]
+        };
+      }
+    
     componentDidMount = async () => {
         const user = await isAuthUser();
 
         if (user) {
+            const reportList = await getAllReportsByUser(user.id);//getReports(),
             this.setState({
-                reportList: await getAllReportsByUser(user.id),//getReports(),
+                reportList: reportList,
                 user: user
             }, async () => {
                 await this.loadAreasByUser();
+                this.props.setReportDispatch(this.state.reportList);
             });
         }
     }
 
     allMyReports = async () => {
-        if (this.state.user) this.setState({ reportList: await getAllReportsByUser(this.state.user.id), tipoView: 'Todos' });
+        if (this.state.user) this.setState({ reportList: await getAllReportsByUser(this.state.user.id), tipoView: 'Todos' }, () => this.props.setReportDispatch(this.state.reportList));
     }
 
     myFavoritesReports = async () => {
-        if (this.state.user) this.setState({ reportList: await getListReportsFavorites(this.state.user.id), tipoView: 'Favoritos' });
+        if (this.state.user) this.setState({ reportList: await getListReportsFavorites(this.state.user.id), tipoView: 'Favoritos' }, () => this.props.setReportDispatch(this.state.reportList));
     }
 
     myViewsReports = async () => {
-        if (this.state.user) this.setState({ reportList: await getListReportsViews(this.state.user.id), tipoView: 'Vistos' });
+        if (this.state.user) this.setState({ reportList: await getListReportsViews(this.state.user.id), tipoView: 'Vistos' }, () => this.props.setReportDispatch(this.state.reportList));
     }
 
     loadAreasByUser = async () => {
@@ -50,7 +65,7 @@ class ReportListContainer extends Component {
     }
 
     listReportsByArea = async (area_id: number, nameType: string) => {
-        if (this.state.user) this.setState({ reportList: await getListReportsArea(area_id), tipoView: nameType });
+        if (this.state.user) this.setState({ reportList: await getListReportsArea(area_id), tipoView: nameType }, () => this.props.setReportDispatch(this.state.reportList));
     }
 
     logOut = () => {
@@ -69,7 +84,7 @@ class ReportListContainer extends Component {
                     <a href="#misFavoritos" onClick={() => this.myFavoritesReports()}>Mis Favoritos</a>
                     <a href="#recientes" onClick={() => this.myViewsReports()}>Recientes</a>
                     { this.state.areasUser ? 
-                        this.state.areasUser.map(area => {
+                        this.state.areasUser.map((area: any) => {
                             return <a href={`#${area.nombre}`} key={area.id} onClick={() => this.listReportsByArea(area.id, area.nombre)}>{area.nombre}</a>
                         }) : ''
                     }
@@ -84,7 +99,10 @@ class ReportListContainer extends Component {
     }
 }
 
-export default ReportListContainer;
+// export default ReportListContainer;
 
-// const mapStateToProps = (state:any) => ({user: state.user});
-// export default connect(mapStateToProps, null)(ReportListContainer);
+const mapStateToProps = (state:any) => ({ReportListProps: state.reports});
+const mapDispatchToPropsActions = (dispatch: any) => ({
+    setReportDispatch: (value: any) => dispatch(setReportsAction(value)), //login.data
+});
+export default connect(mapStateToProps, mapDispatchToPropsActions)(ReportListContainer);

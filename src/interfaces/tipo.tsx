@@ -15,7 +15,7 @@ export const tipoStructure = {
     tipo_id : 0,
     descripcion_tipo : '',
     nombre : '',
-    createdAt : '',
-    updatedAt : '',
+    createdAt : '000-00-00',
+    updatedAt : '000-00-00',
     edit:false
 }

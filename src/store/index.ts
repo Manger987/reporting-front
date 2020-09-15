@@ -1,5 +1,5 @@
 import { createStore, compose } from "redux";
-import { userReducer } from './reducers/userReducer';
+import reducers from './reducers';
 
 declare global {
   interface Window {
@@ -9,7 +9,8 @@ declare global {
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const initialState = {
-    user:{}
+    user:{},
+    reports:{}
 }
 
-export const store = createStore(userReducer, initialState, composeEnhancers());
+export const store = createStore(reducers, initialState, composeEnhancers());

@@ -31,11 +31,20 @@ const getListReportsViews = async (usuario_id: number) => {
 }
 
 const getListReportsArea = async (tipo_id: number) => {
-    return await axios.get(`http://localhost:8000/reporte/findAllReportsByType/${tipo_id}`)
+    const usuario =  isAuthUser();
+    return await axios.get(`http://localhost:8000/reporte/findAllReportsByType/${tipo_id}/${usuario.id}`)
     .then(res => {
         console.log(res.data);
         return res.data;
     }).catch(err => console.log("Error getListReportsArea: ",err.response.data));
 }
 
-export { getReports, getListReportsFavorites, getAllReportsByUser, getListReportsViews, getListReportsArea };
+const addFavorite = async (dataReport: object) => {
+    console.log("fe:",dataReport);
+    return await axios.post(`http://localhost:8000/reporte/addFavorite`, dataReport)
+    .then(res => {
+        return res.data;
+    }).catch(err => console.log("Error addFavorite: ",err.response.data));
+}
+
+export { getReports, getListReportsFavorites, getAllReportsByUser, getListReportsViews, getListReportsArea, addFavorite };

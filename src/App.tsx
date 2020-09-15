@@ -9,6 +9,7 @@ import ReportListContainer from "./containers/ReportListContainer";
 import Login from "./../src/components/Login/Login";
 import Error404 from "./components/Errors/Errors";
 import { ProtectedRoute } from "./components/ProtectedRoute";
+import "./FontAwesomeIcons";
 
 function App() {
   return (
