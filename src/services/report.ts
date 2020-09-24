@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { isAuthUser } from './authService';
+import { reportInterface } from './../interfaces/report';
 
 const getReports = async () => {
     console.log("isAuthUser", isAuthUser().token);
@@ -40,11 +41,26 @@ const getListReportsArea = async (tipo_id: number) => {
 }
 
 const addFavorite = async (dataReport: object) => {
-    console.log("fe:",dataReport);
     return await axios.post(`http://localhost:8000/reporte/addFavorite`, dataReport)
     .then(res => {
         return res.data;
     }).catch(err => console.log("Error addFavorite: ",err.response.data));
 }
 
-export { getReports, getListReportsFavorites, getAllReportsByUser, getListReportsViews, getListReportsArea, addFavorite };
+const createReport = async (report: reportInterface) => {
+    const url = (report.id) ? 'update' : 'create';
+    return await axios.post(`http://localhost:8000/reporte/${url}`, report)
+    .then(res => {
+        return res.data;
+    }).catch(err => console.log("Error createReport: ",err.response.data));
+}
+
+const deletedReport = async (dataReport: reportInterface) => {
+    console.log("dataReport", dataReport);
+    return await axios.get(`http://localhost:8000/reporte/delete/${dataReport.id}`)
+    .then(res => {
+        return res.data;
+    }).catch(err => console.log("Error addFavorite: ",err.response.data));
+}
+
+export { getReports, getListReportsFavorites, getAllReportsByUser, getListReportsViews, getListReportsArea, addFavorite, createReport, deletedReport };

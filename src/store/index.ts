@@ -10,7 +10,8 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const initialState = {
     user:{},
-    reports:{}
+    reports:{},
+    message:{}
 }
 
 export const store = createStore(reducers, initialState, composeEnhancers());
