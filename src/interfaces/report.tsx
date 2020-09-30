@@ -1,4 +1,4 @@
-
+import { FileInterface } from './file';
 
 export interface reportInterface {
     id?: Number
@@ -8,7 +8,8 @@ export interface reportInterface {
     vista_reporte: number
     fecha_visualizacion?: Date
     usuario_creador?: number
-    archivo?:string
+    archivo?: string
+    reporte_archivo?: FileInterface[]
     createdAt?: Date
     updatedAt?: Date
 }
@@ -19,5 +20,5 @@ export const reportStructure = {
     url: '',
     vista_reporte: 0,
     usuario_creador: 0,
-    archivo: 'S/A'
+    reporte_archivo: []
 }

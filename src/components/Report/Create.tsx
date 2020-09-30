@@ -8,23 +8,25 @@ import { connect } from "react-redux";
 import FileUpload from './../FileUpload';
 
 type MyProps = {reporte: reportInterface, setMessageDispatch: any, onSubmit: any, reports: any};
-type MyState = { reporte: any , [key: string]: any };
+type MyState = { reporte: any , uploadedFiles: any, [key: string]: any };
 class CreateReport extends React.Component<MyProps, MyState> {
     constructor(props: any) {
         super(props);
         this.state = {
-            reporte: (this.props.reporte) ? this.props.reporte : reportStructure 
+            reporte: (this.props.reporte) ? this.props.reporte : reportStructure ,
+            uploadedFiles: {}
         };
     }
 
     submitForm = async (e: any) => {
         e.preventDefault();
+        // console.log("PRUEBA:::", this.state.uploadedFiles);
         const reportSaved = await createReport(this.state.reporte);
         if (reportSaved) {
             const dataReturn = {status: 200, success: true, message: "Reporte editado con exito."};
             this.props.setMessageDispatch(dataReturn);
             
-            if (this.props.reports.reports){ //si viene de ReportList.tsx de editar un reporte.
+            if (this.state.reporte.id !== null && this.props.reports.reports){ //si viene de ReportList.tsx de editar un reporte.
                 await this.props.reports.reports.map((report: reportInterface, index: number) => {
                     if(report.id === this.props.reporte.id) {
                         this.props.reports.reports[index] = this.state.reporte;
@@ -44,6 +46,10 @@ class CreateReport extends React.Component<MyProps, MyState> {
         this.setState({
             reporte: dataReport
         });
+    };
+
+    uploadedFiles = (data: any) => {
+        this.setState({reporte: { ...this.state.reporte , reporte_archivo: data }});
     };
 
     render() {
@@ -76,7 +82,7 @@ class CreateReport extends React.Component<MyProps, MyState> {
                                 <input className="form-control" type="text" id="archivo" name="archivo" value={(this.state.reporte.archivo) ? this.state.reporte.archivo : 'S/A'} onChange={this.updateInputValue}/>
                             </div> */}
                             <div className="form-group">
-                                <FileUpload />
+                                <FileUpload uploadedFiles={ this.uploadedFiles } />
                             </div>
                             <div className="form-group">
                                 <button className="btn btn-success form-control" onClick={this.submitForm}>Enviar</button>

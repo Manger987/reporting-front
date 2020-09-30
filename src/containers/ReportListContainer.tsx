@@ -12,15 +12,18 @@ import { tipoStructure } from './../interfaces/tipo';
 // import { isAdmin } from './../services/usuario';
 import './styles.css';
 import { connect } from 'react-redux';
+import NavbarMenu from './../components/Frame/Navbar/NavbarMenu';
+import Sidebar from './../components/Frame/Sidebar/Sidebar';
 
 type MyProps = { setReportDispatch: any };
-type MyState = { 
-    reportList: any; 
-    listReportsFavorites: any; 
+type MyState = {
+    reportList: any;
+    listReportsFavorites: any;
     tipoView: string;
     user: any;
     areasUser: any;
-    [key: string]: any };
+    [key: string]: any
+};
 class ReportListContainer extends Component<MyProps, MyState> {
     constructor(props: any) {
         super(props);
@@ -31,8 +34,8 @@ class ReportListContainer extends Component<MyProps, MyState> {
             user: userStructure,
             areasUser: [tipoStructure]
         };
-      }
-    
+    }
+
     componentDidMount = async () => {
         const user = await isAuthUser();
 
@@ -75,15 +78,14 @@ class ReportListContainer extends Component<MyProps, MyState> {
     render() {
         return (
             <div>
-                <nav className="navbar sticky-top navbar-dark bg-primary"> {/*style="background-color: #e3f2fd;"> */}
-                    <a className="navbar-brand" href="/#">Reportes PowerBI</a>
-                </nav>
-                <Button variant="warning" onClick={() => this.logOut()}>LogOut</Button>
+                {/* <NavbarMenu /> */}
+                {/* <Button variant="warning" onClick={() => this.logOut()}>LogOut</Button> */}
+            {/* <Sidebar /> */}
                 <div className="sidenav">
                     <a href="#todosMisReportes" onClick={() => this.allMyReports()}>Mis Reportes</a>
                     <a href="#misFavoritos" onClick={() => this.myFavoritesReports()}>Mis Favoritos</a>
                     <a href="#recientes" onClick={() => this.myViewsReports()}>Recientes</a>
-                    { this.state.areasUser ? 
+                    {this.state.areasUser ?
                         this.state.areasUser.map((area: any) => {
                             return <a href={`#${area.nombre}`} key={area.id} onClick={() => this.listReportsByArea(area.id, area.nombre)}>{area.nombre}</a>
                         }) : ''
@@ -101,7 +103,7 @@ class ReportListContainer extends Component<MyProps, MyState> {
 
 // export default ReportListContainer;
 
-const mapStateToProps = (state:any) => ({ReportListProps: state.reports});
+const mapStateToProps = (state: any) => ({ ReportListProps: state.reports });
 const mapDispatchToPropsActions = (dispatch: any) => ({
     setReportDispatch: (value: any) => dispatch(setReportsAction(value)), //login.data
 });

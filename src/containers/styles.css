@@ -36,3 +36,9 @@ body {
     .sidenav {padding-top: 15px;}
     .sidenav a {font-size: 18px;}
   }
+
+  /************************/
+  .navbar,
+  .navbar-default {
+      background-image: linear-gradient(to bottom,#003087 0,#2c4053 100%) !important; /* override background image gradient w/ flat color */
+  }

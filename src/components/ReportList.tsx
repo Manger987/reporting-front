@@ -86,10 +86,6 @@ class ReportList extends Component<MyProps, MyState> {
         <div className="wrapper">
           <div className="three">
             <div>
-              {
-                this.state.message.status === 200 &&
-                <Alert variant="success">{this.state.message.message}</Alert>
-              }
               {this.props.reports.map((report: any, index: number) => (
                 <div key={report.id}>
                   {report.nombre}
