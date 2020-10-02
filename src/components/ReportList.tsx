@@ -3,6 +3,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Alert from 'react-bootstrap/Alert'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Container, Row, Col } from 'react-grid-system';
 import { setReportsAction } from "./../store/actions";
 import { isAuthUser } from "../services/authService";
 import { addFavorite, deletedReport } from './../services/report';
@@ -12,6 +13,7 @@ import { connect } from "react-redux";
 import CreateReport from "./Report/Create";
 import { reportInterface, reportStructure } from './../interfaces/report';
 import { messageInterface, messageStructure } from './../interfaces/messages';
+import { Card } from "react-bootstrap";
 
 type MyProps = { setReportDispatch: any, reports: any, message: messageInterface };
 type MyState = {
@@ -35,6 +37,7 @@ class ReportList extends Component<MyProps, MyState> {
   }
 
   componentDidMount = async () => {
+    console.log("REPORTTTTTT:::", this.props.reports);
     if (this.props.reports) {
       this.setState({ reportList: this.props.reports });
     }
@@ -64,44 +67,63 @@ class ReportList extends Component<MyProps, MyState> {
   deleteReport = async (report: any, index: number) => {
     console.log(report);
     const isDeleted = await deletedReport(report);
-    if(isDeleted) {
+    if (isDeleted) {
       this.props.reports.splice(index, 1);
       this.setState({ reportList: this.props.reports });
     }
   }
 
   onReturnFormSubmit = async (dataReturn: any) => {
-    if (dataReturn.success){
+    if (dataReturn.success) {
       this.setState({ message: dataReturn, show: false }, () => {
-        window.setTimeout(()=>{
-          this.setState({message: messageStructure})
+        window.setTimeout(() => {
+          this.setState({ message: messageStructure })
         }, 4000)
       });
-      console.log(this.state.message)}
+      console.log(this.state.message)
+    }
   }
 
   render() {
+    console.log("REPORTTTTTT:::", this.props.reports);
+
+    const Styles = {
+      card: {
+        width: '18rem',
+        img: {
+          width: '100%',
+          height: '100%'
+        }
+      }
+    };
+
     return (
       <div>
-        <div className="wrapper">
-          <div className="three">
-            <div>
-              {this.props.reports.map((report: any, index: number) => (
-                <div key={report.id}>
-                  {report.nombre}
-                  {(report.favorito) ?
-                    <FontAwesomeIcon icon={['fas', 'star']} onClick={() => { this.addToFavorite(report.id, index) }} /> :
-                    <FontAwesomeIcon icon={['far', 'star']} onClick={() => { this.addToFavorite(report.id, index) }} />}
-                  <FontAwesomeIcon icon={['fas', 'edit']} onClick={() => { this.editReport(report) }} />
-                  <FontAwesomeIcon icon={['fas', 'minus-circle']} onClick={() => { if(window.confirm('Esta seguro de eliminar el Reporte?')){this.deleteReport(report, index)};}} />
-                </div>
-              ))}
-            </div>
-          </div>
-          <div className="two">DOS</div>
-        </div>
-        <div className="container-fluid">
-        </div>
+        <Container>
+          <Row>
+          {this.props.reports.map((report: any, index: number) => (
+            <Col md={4} key={report.id}>
+              <Card style={Styles.card} className="box">
+                {(report.reporte_archivo.length > 0) ? 
+                <Card.Img variant="top" src={require("./../public/img/pdf.png")} style={{width:'80%', height:'80%'}}/> : 
+                <Card.Img variant="top" src={require("./../public/img/power_bi.png")} />}
+                <Card.Body>
+                  <h4><Card.Text>{report.nombre}</Card.Text></h4>
+                  <ul className="list-group list-group-flush">
+                    <li className="list-group-item">
+                      {(report.favorito) ?
+                        <FontAwesomeIcon icon={['fas', 'star']} onClick={() => { this.addToFavorite(report.id, index) }} /> :
+                        <FontAwesomeIcon icon={['far', 'star']} onClick={() => { this.addToFavorite(report.id, index) }} />}
+                      <FontAwesomeIcon icon={['fas', 'edit']} onClick={() => { this.editReport(report) }} />
+                      <FontAwesomeIcon icon={['fas', 'minus-circle']} onClick={() => { if (window.confirm('Esta seguro de eliminar el Reporte?')) { this.deleteReport(report, index) }; }} />
+                    </li>
+                  </ul>
+                </Card.Body>
+              </Card>
+            </Col>
+          ))}
+          </Row>
+        </Container>
         <Modal show={this.state.show} >
           <Modal.Header> Reporte</Modal.Header>
           <Modal.Body>

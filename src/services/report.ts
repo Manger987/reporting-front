@@ -10,9 +10,11 @@ const getReports = async () => {
     });
 }
 
-const getAllReportsByUser = async (userio_id: number) => {
-    return await axios.get(`http://localhost:8000/reporte/listReportsByUser/${userio_id}`, { headers:{'access-token': isAuthUser().token}})
+const getAllReportsByUser = async (usuario_id: number) => {
+    console.log("usuario:", usuario_id);
+    return await axios.get(`http://localhost:8000/reporte/listReportsByUser/${usuario_id}`, { headers:{'access-token': isAuthUser().token}})
     .then(res => {
+        console.log("RESPONDO:",res.data);
         return res.data;
     }).catch(err => console.log("Error getAllReportsByUser: ",err.response.data));
 }

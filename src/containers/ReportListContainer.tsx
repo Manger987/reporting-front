@@ -15,7 +15,7 @@ import { connect } from 'react-redux';
 import NavbarMenu from './../components/Frame/Navbar/NavbarMenu';
 import Sidebar from './../components/Frame/Sidebar/Sidebar';
 
-type MyProps = { setReportDispatch: any };
+type MyProps = { setReportDispatch: any, ReportListProps: any };
 type MyState = {
     reportList: any;
     listReportsFavorites: any;
@@ -28,7 +28,7 @@ class ReportListContainer extends Component<MyProps, MyState> {
     constructor(props: any) {
         super(props);
         this.state = {
-            reportList: [],
+            reportList: (this.props.ReportListProps)? this.props.ReportListProps : [],
             listReportsFavorites: [],
             tipoView: '',
             user: userStructure,
@@ -37,51 +37,51 @@ class ReportListContainer extends Component<MyProps, MyState> {
     }
 
     componentDidMount = async () => {
-        const user = await isAuthUser();
+        // const user = await isAuthUser();
 
-        if (user) {
-            const reportList = await getAllReportsByUser(user.id);//getReports(),
-            this.setState({
-                reportList: reportList,
-                user: user
-            }, async () => {
-                await this.loadAreasByUser();
-                this.props.setReportDispatch(this.state.reportList);
-            });
-        }
+        // if (user) {
+        //     const reportList = await getAllReportsByUser(user.id);//getReports(),
+        //     this.setState({
+        //         reportList: reportList,
+        //         user: user
+        //     }, async () => {
+        //         await this.loadAreasByUser();
+        //         this.props.setReportDispatch(this.state.reportList);
+        //     });
+        // }
     }
 
-    allMyReports = async () => {
-        if (this.state.user) this.setState({ reportList: await getAllReportsByUser(this.state.user.id), tipoView: 'Todos' }, () => this.props.setReportDispatch(this.state.reportList));
-    }
+    // allMyReports = async () => {
+    //     if (this.state.user) this.setState({ reportList: await getAllReportsByUser(this.state.user.id), tipoView: 'Todos' }, () => this.props.setReportDispatch(this.state.reportList));
+    // }
 
-    myFavoritesReports = async () => {
-        if (this.state.user) this.setState({ reportList: await getListReportsFavorites(this.state.user.id), tipoView: 'Favoritos' }, () => this.props.setReportDispatch(this.state.reportList));
-    }
+    // myFavoritesReports = async () => {
+    //     if (this.state.user) this.setState({ reportList: await getListReportsFavorites(this.state.user.id), tipoView: 'Favoritos' }, () => this.props.setReportDispatch(this.state.reportList));
+    // }
 
-    myViewsReports = async () => {
-        if (this.state.user) this.setState({ reportList: await getListReportsViews(this.state.user.id), tipoView: 'Vistos' }, () => this.props.setReportDispatch(this.state.reportList));
-    }
+    // myViewsReports = async () => {
+    //     if (this.state.user) this.setState({ reportList: await getListReportsViews(this.state.user.id), tipoView: 'Vistos' }, () => this.props.setReportDispatch(this.state.reportList));
+    // }
 
-    loadAreasByUser = async () => {
-        if (this.state.user.usuario_tipo_perfils) this.setState({ areasUser: await getListTypes(this.state.user.usuario_tipo_perfils) });
-    }
+    // loadAreasByUser = async () => {
+    //     if (this.state.user.usuario_tipo_perfils) this.setState({ areasUser: await getListTypes(this.state.user.usuario_tipo_perfils) });
+    // }
 
-    listReportsByArea = async (area_id: number, nameType: string) => {
-        if (this.state.user) this.setState({ reportList: await getListReportsArea(area_id), tipoView: nameType }, () => this.props.setReportDispatch(this.state.reportList));
-    }
+    // listReportsByArea = async (area_id: number, nameType: string) => {
+    //     if (this.state.user) this.setState({ reportList: await getListReportsArea(area_id), tipoView: nameType }, () => this.props.setReportDispatch(this.state.reportList));
+    // }
 
-    logOut = () => {
-        removeLogin();
-    }
+    // logOut = () => {
+    //     removeLogin();
+    // }
 
     render() {
         return (
             <div>
                 {/* <NavbarMenu /> */}
                 {/* <Button variant="warning" onClick={() => this.logOut()}>LogOut</Button> */}
-            {/* <Sidebar /> */}
-                <div className="sidenav">
+            <Sidebar />
+                {/* <div className="sidenav">
                     <a href="#todosMisReportes" onClick={() => this.allMyReports()}>Mis Reportes</a>
                     <a href="#misFavoritos" onClick={() => this.myFavoritesReports()}>Mis Favoritos</a>
                     <a href="#recientes" onClick={() => this.myViewsReports()}>Recientes</a>
@@ -90,18 +90,15 @@ class ReportListContainer extends Component<MyProps, MyState> {
                             return <a href={`#${area.nombre}`} key={area.id} onClick={() => this.listReportsByArea(area.id, area.nombre)}>{area.nombre}</a>
                         }) : ''
                     }
-                </div>
+                </div>*/}
                 <div className="main">
-                    {this.state.reportList.length > 0 ?
-                        <ReportList
-                            reports={this.state.reportList}></ReportList> : `No se encuentran reportes del tipo ${this.state.tipoView}`}
-                </div>
+                    { this.props.ReportListProps.reports && this.props.ReportListProps.reports.length > 0 ?
+                        <ReportList reports={this.props.ReportListProps.reports}    ></ReportList> : `No se encuentran reportes del tipo ${this.state.tipoView}`}
+                </div> 
             </div>
         );
     }
 }
-
-// export default ReportListContainer;
 
 const mapStateToProps = (state: any) => ({ ReportListProps: state.reports });
 const mapDispatchToPropsActions = (dispatch: any) => ({
