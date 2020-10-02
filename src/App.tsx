@@ -6,7 +6,7 @@ import {
 } from "react-router-dom";
 import "./App.css";
 import ReportListContainer from "./containers/ReportListContainer";
-import CreateReport from './components/Report/Create';
+import CreateContainer from './components/Report/CreateContainer';
 import Login from "./../src/components/Login/Login";
 import Error404 from "./components/Errors/Errors";
 import { ProtectedRoute } from "./components/ProtectedRoute";
@@ -21,7 +21,7 @@ function App() {
           <Route path={'/login'} exact component={Login}></Route>
           {/*<Route path={'/reports'} exact component={ReportListContainer}></Route> */}
           <ProtectedRoute exact path="/reports" component={ReportListContainer} />
-          <ProtectedRoute exact path="/reports/create" component={CreateReport} />
+          <ProtectedRoute exact path="/reports/create" component={CreateContainer} />
           <Route path={"*"} component={Error404}></Route>
         </Switch>
       </Router>

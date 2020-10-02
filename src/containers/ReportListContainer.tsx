@@ -14,6 +14,7 @@ import './styles.css';
 import { connect } from 'react-redux';
 import NavbarMenu from './../components/Frame/Navbar/NavbarMenu';
 import Sidebar from './../components/Frame/Sidebar/Sidebar';
+import { Col, Container, Row } from 'react-bootstrap';
 
 type MyProps = { setReportDispatch: any, ReportListProps: any };
 type MyState = {
@@ -28,7 +29,7 @@ class ReportListContainer extends Component<MyProps, MyState> {
     constructor(props: any) {
         super(props);
         this.state = {
-            reportList: (this.props.ReportListProps)? this.props.ReportListProps : [],
+            reportList: (this.props.ReportListProps) ? this.props.ReportListProps : [],
             listReportsFavorites: [],
             tipoView: '',
             user: userStructure,
@@ -78,23 +79,20 @@ class ReportListContainer extends Component<MyProps, MyState> {
     render() {
         return (
             <div>
-                {/* <NavbarMenu /> */}
-                {/* <Button variant="warning" onClick={() => this.logOut()}>LogOut</Button> */}
-            <Sidebar />
-                {/* <div className="sidenav">
-                    <a href="#todosMisReportes" onClick={() => this.allMyReports()}>Mis Reportes</a>
-                    <a href="#misFavoritos" onClick={() => this.myFavoritesReports()}>Mis Favoritos</a>
-                    <a href="#recientes" onClick={() => this.myViewsReports()}>Recientes</a>
-                    {this.state.areasUser ?
-                        this.state.areasUser.map((area: any) => {
-                            return <a href={`#${area.nombre}`} key={area.id} onClick={() => this.listReportsByArea(area.id, area.nombre)}>{area.nombre}</a>
-                        }) : ''
-                    }
-                </div>*/}
-                <div className="main">
-                    { this.props.ReportListProps.reports && this.props.ReportListProps.reports.length > 0 ?
-                        <ReportList reports={this.props.ReportListProps.reports}    ></ReportList> : `No se encuentran reportes del tipo ${this.state.tipoView}`}
-                </div> 
+                <NavbarMenu />
+                <Container fluid>
+                    <Row>
+                        <Col xs={2} id="sidebar-wrapper">
+                            <Sidebar />
+                        </Col>
+                        <Col xs={10} id="page-content-wrapper">
+                            <div className="main">
+                                {this.props.ReportListProps.reports && this.props.ReportListProps.reports.length > 0 ?
+                                    <ReportList reports={this.props.ReportListProps.reports}    ></ReportList> : `No se encuentran reportes del tipo ${this.state.tipoView}`}
+                            </div>
+                        </Col>
+                    </Row>
+                </Container>
             </div>
         );
     }

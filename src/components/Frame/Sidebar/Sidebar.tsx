@@ -16,6 +16,7 @@ import { connect } from "react-redux";
 import { setReportsAction } from "../../../store/actions";
 import { stat } from "fs";
 import { isAuthUser, removeLogin } from "../../../services/authService";
+import { Nav } from "react-bootstrap";
 
 type MyProps = {
   //   reports: any;
@@ -88,64 +89,35 @@ class Sidebar extends Component<MyProps, MyState> {
     if (this.state.user) this.setState({ reportList: await getListReportsArea(area_id), tipoView: nameType }, () => this.props.setReportDispatch(this.state.reportList));
   }
 
-  logOut = () => {
-    removeLogin();
-  }
+  // logOut = () => {
+  //   removeLogin();
+  // }
 
   render() {
     return (
       <>
-        <IconContext.Provider value={{ color: "#fff" }}>
-          <div className="navbar">
-            <Link to="#" className="menu-bars">
-              <FaIcons.FaBars onClick={this.showSidebar} />
-            </Link>
-            <Link to="#" className="menu-bars">
-              <BiLogOut onClick={this.logOut} />
-            </Link>
-          </div>
-          <nav className={this.state.sidebar ? "nav-menu active" : "nav-menu"}>
-            <ul className="nav-menu-items" onClick={this.showSidebar}>
-              <li className="navbar-toggle">
-                <Link to="#" className="menu-bars">
-                  <AiIcons.AiOutlineClose />
-                </Link>
-              </li>
-              <li className="nav-text">
-                <a href="#todosMisReportes" onClick={() => this.allMyReports()}>
-                  Mis Reportes
-                </a>
-              </li>
-              <li className="nav-text">
-                <a href="#misFavoritos" onClick={() => this.myFavoritesReports()}>
-                  Mis Favoritos
-                </a>
-              </li>
-              <li className="nav-text">
-                <a href="#recientes" onClick={() => this.myViewsReports()}>
-                  Recientes
-                </a>
-              </li>
-              {this.state.areasUser ?
+      <Nav className="col-md-12 d-none d-md-block bg-light sidebar"
+            activeKey="/home"
+            onSelect={selectedKey => alert(`selected ${selectedKey}`)}
+            >
+                <div className="sidebar-sticky"></div>
+            <Nav.Item>
+                <Nav.Link onClick={() => this.allMyReports()}>Mis Reportes</Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+                <Nav.Link onClick={() => this.myFavoritesReports()}>Mis Favoritos</Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+                <Nav.Link onClick={() => this.myViewsReports()}>Recientes</Nav.Link>
+            </Nav.Item>
+            {this.state.areasUser ?
                 this.state.areasUser.map((area: any) => {
-                  return <li className="nav-text">
-                    <a href={`#${area.nombre}`} key={area.id} onClick={() => this.listReportsByArea(area.id, area.nombre)}>{area.nombre}</a>
-                  </li>
+                  return <Nav.Item>
+                  <Nav.Link onClick={() => this.listReportsByArea(area.id, area.nombre)}>{area.nombre}</Nav.Link>
+              </Nav.Item>
                 }) : ''
               }
-              {/* {SidebarData.map((item, index) => {
-              return (
-                <li key={index} className={item.cName}>
-                  <Link to={item.path}>
-                    {item.icon}
-                    <span>{item.title}</span>
-                  </Link>
-                </li>
-              );
-            })} */}
-            </ul>
-          </nav>
-        </IconContext.Provider>
+            </Nav>
       </>
     );
   }

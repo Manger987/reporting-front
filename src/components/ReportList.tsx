@@ -87,15 +87,16 @@ class ReportList extends Component<MyProps, MyState> {
   render() {
     console.log("REPORTTTTTT:::", this.props.reports);
 
-    const Styles = {
-      card: {
-        width: '18rem',
-        img: {
-          width: '100%',
-          height: '100%'
-        }
-      }
-    };
+    // const Styles = {
+    //   card: {
+    //     width: '18rem',
+
+    //     img: {
+    //       width: '100%',
+    //       height: '100%'
+    //     }
+    //   }
+    // };
 
     return (
       <div>
@@ -103,7 +104,7 @@ class ReportList extends Component<MyProps, MyState> {
           <Row>
           {this.props.reports.map((report: any, index: number) => (
             <Col md={4} key={report.id}>
-              <Card style={Styles.card} className="box">
+              <Card style={{width: '18rem', marginTop:'10px'}} className="box">
                 {(report.reporte_archivo.length > 0) ? 
                 <Card.Img variant="top" src={require("./../public/img/pdf.png")} style={{width:'80%', height:'80%'}}/> : 
                 <Card.Img variant="top" src={require("./../public/img/power_bi.png")} />}
