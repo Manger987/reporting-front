@@ -4,10 +4,17 @@ import { usuarioTipoPerfilsInterface } from './../interfaces/usuario_tipo_perfil
 import { isAdmin } from './usuario';
 
 const getAllTypes = async () => {
-    return await axios.get(`http://localhost:8000/tipo/list`)
+    return await axios.get(`http://${process.env.REACT_APP_SERVER}:${process.env.REACT_APP_PORT}/tipo/list`)
     .then(res => {
         return res.data;
     }).catch(err => console.log("Error getListReportsViews: ",err.response.data));
+}
+
+const getTypesAreas = async () => {
+    return await axios.get(`http://${process.env.REACT_APP_SERVER}:${process.env.REACT_APP_PORT}/tipo/getTypesAreas`)
+    .then(res => {
+        return res.data;
+    }).catch(err => console.log("Error getTypesAreas: ",err.response.data));
 }
 
 const getListTypes = async (user_areas_perfil: usuarioTipoPerfilsInterface[]) => {
@@ -22,4 +29,4 @@ const getListTypes = async (user_areas_perfil: usuarioTipoPerfilsInterface[]) =>
     })
 }
 
-export { getListTypes, getAllTypes };
+export { getListTypes, getAllTypes, getTypesAreas };

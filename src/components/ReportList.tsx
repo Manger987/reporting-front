@@ -37,12 +37,9 @@ class ReportList extends Component<MyProps, MyState> {
   }
 
   componentDidMount = async () => {
-    console.log("REPORTTTTTT:::", this.props.reports);
     if (this.props.reports) {
       this.setState({ reportList: this.props.reports });
     }
-
-    console.log("MESSAGE1:", this.props.message);
   }
 
   addToFavorite = async (report_id: number, index: number) => {
@@ -85,7 +82,7 @@ class ReportList extends Component<MyProps, MyState> {
   }
 
   render() {
-    console.log("REPORTTTTTT:::", this.props.reports);
+    console.log("REPORTTTTTT:::***********", this.props.reports);
 
     // const Styles = {
     //   card: {
@@ -111,13 +108,14 @@ class ReportList extends Component<MyProps, MyState> {
                 <Card.Body>
                   <h4><Card.Text>{report.nombre}</Card.Text></h4>
                   <ul className="list-group list-group-flush">
+                    { (isAuthUser().id) ? 
                     <li className="list-group-item">
                       {(report.favorito) ?
                         <FontAwesomeIcon icon={['fas', 'star']} onClick={() => { this.addToFavorite(report.id, index) }} /> :
                         <FontAwesomeIcon icon={['far', 'star']} onClick={() => { this.addToFavorite(report.id, index) }} />}
                       <FontAwesomeIcon icon={['fas', 'edit']} onClick={() => { this.editReport(report) }} />
                       <FontAwesomeIcon icon={['fas', 'minus-circle']} onClick={() => { if (window.confirm('Esta seguro de eliminar el Reporte?')) { this.deleteReport(report, index) }; }} />
-                    </li>
+                    </li> : report.descripcion}
                   </ul>
                 </Card.Body>
               </Card>

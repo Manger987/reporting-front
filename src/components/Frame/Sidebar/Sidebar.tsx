@@ -112,7 +112,7 @@ class Sidebar extends Component<MyProps, MyState> {
             </Nav.Item>
             {this.state.areasUser ?
                 this.state.areasUser.map((area: any) => {
-                  return <Nav.Item>
+                  return <Nav.Item key={area.id}>
                   <Nav.Link onClick={() => this.listReportsByArea(area.id, area.nombre)}>{area.nombre}</Nav.Link>
               </Nav.Item>
                 }) : ''

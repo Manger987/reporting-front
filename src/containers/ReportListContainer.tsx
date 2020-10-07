@@ -52,30 +52,6 @@ class ReportListContainer extends Component<MyProps, MyState> {
         // }
     }
 
-    // allMyReports = async () => {
-    //     if (this.state.user) this.setState({ reportList: await getAllReportsByUser(this.state.user.id), tipoView: 'Todos' }, () => this.props.setReportDispatch(this.state.reportList));
-    // }
-
-    // myFavoritesReports = async () => {
-    //     if (this.state.user) this.setState({ reportList: await getListReportsFavorites(this.state.user.id), tipoView: 'Favoritos' }, () => this.props.setReportDispatch(this.state.reportList));
-    // }
-
-    // myViewsReports = async () => {
-    //     if (this.state.user) this.setState({ reportList: await getListReportsViews(this.state.user.id), tipoView: 'Vistos' }, () => this.props.setReportDispatch(this.state.reportList));
-    // }
-
-    // loadAreasByUser = async () => {
-    //     if (this.state.user.usuario_tipo_perfils) this.setState({ areasUser: await getListTypes(this.state.user.usuario_tipo_perfils) });
-    // }
-
-    // listReportsByArea = async (area_id: number, nameType: string) => {
-    //     if (this.state.user) this.setState({ reportList: await getListReportsArea(area_id), tipoView: nameType }, () => this.props.setReportDispatch(this.state.reportList));
-    // }
-
-    // logOut = () => {
-    //     removeLogin();
-    // }
-
     render() {
         return (
             <div>

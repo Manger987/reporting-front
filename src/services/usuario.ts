@@ -2,7 +2,7 @@ import axios from 'axios';
 import { usuarioTipoPerfilsInterface } from './../interfaces/usuario_tipo_perfils';
 
 const logginUser = async (usuario: object) => {
-    return await axios.post(`http://localhost:8000/usuario/loggin`, usuario)
+    return await axios.post(`http://${process.env.REACT_APP_SERVER}:${process.env.REACT_APP_PORT}/usuario/loggin`, usuario)
     .then(res => res.data)
     .catch(err => {
         console.log("ERROR1:", err.message);

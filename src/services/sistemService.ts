@@ -2,7 +2,7 @@ import axios from 'axios';
 import { FileInterface } from './../interfaces/file';
 
 const uploadFileService = async (dataFile: any) => {
-    return await axios.post(`http://localhost:8000/sistem/uploadFile`, dataFile, {
+    return await axios.post(`http://${process.env.REACT_APP_SERVER}:${process.env.REACT_APP_PORT}/sistem/uploadFile`, dataFile, {
         onUploadProgress: ProgressEvent => {
             return (ProgressEvent.loaded / ProgressEvent.total*100);
       },

@@ -10,6 +10,7 @@ import CreateContainer from './components/Report/CreateContainer';
 import Login from "./../src/components/Login/Login";
 import Error404 from "./components/Errors/Errors";
 import { ProtectedRoute } from "./components/ProtectedRoute";
+import ForeignReportContainer from './containers/ForeignReportContainer';
 import "./FontAwesomeIcons";
 
 
@@ -19,6 +20,7 @@ function App() {
       <Router>
         <Switch>
           <Route path={'/login'} exact component={Login}></Route>
+          <Route exact path="/reports/foreignReports" component={ForeignReportContainer} />
           {/*<Route path={'/reports'} exact component={ReportListContainer}></Route> */}
           <ProtectedRoute exact path="/reports" component={ReportListContainer} />
           <ProtectedRoute exact path="/reports/create" component={CreateContainer} />
