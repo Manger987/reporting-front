@@ -135,8 +135,7 @@ class ReportList extends Component<MyProps, MyState> {
   }
 };
 
-//LEER LOS MENSAJES que vienen de REDUX
-
+//LEER LOS MENSAJES que vienen de REDUX.
 const mapStateToProps = (state: any) => ({ message: state.message });
 const mapDispatchToPropsActions = (dispatch: any) => ({
   setReportDispatch: (value: any) => dispatch(setReportsAction(value)), //login.data
